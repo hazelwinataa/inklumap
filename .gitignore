@@ -1,0 +1,45 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Node.js
+node_modules/
+.next/
+out/
+dist/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Model artifacts
+*.pkl
+*.joblib
+
+# Local database
+*.db
+*.sqlite
+*.sqlite3
+
+# Private data
+data/private/
+
+# Temporary files
+*.tmp
+*.temp
+~$*
+
+# Operating system
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
