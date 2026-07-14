@@ -1,5 +1,8 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from sqlalchemy.exc import SQLAlchemyError
+
+from app.database import check_database_connection
 
 
 app = FastAPI(
@@ -8,7 +11,7 @@ app = FastAPI(
         "API untuk sistem pemetaan kebutuhan akomodasi "
         "pembelajaran sekolah inklusif."
     ),
-    version="0.1.0",
+    version="0.2.0",
 )
 
 app.add_middleware(
@@ -28,7 +31,7 @@ def read_root():
     return {
         "application": "InkluMap",
         "message": "InkluMap API berhasil dijalankan.",
-        "version": "0.1.0",
+        "version": "0.2.0",
     }
 
 
@@ -38,3 +41,21 @@ def health_check():
         "status": "healthy",
         "service": "InkluMap API",
     }
+
+
+@app.get("/health/database")
+def database_health_check():
+    try:
+        database_information = check_database_connection()
+
+        return {
+            "status": "healthy",
+            "service": "PostgreSQL",
+            **database_information,
+        }
+
+    except SQLAlchemyError as error:
+        raise HTTPException(
+            status_code=503,
+            detail="Koneksi ke database PostgreSQL gagal.",
+        ) from error
