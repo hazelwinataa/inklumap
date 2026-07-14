@@ -1,17 +1,24 @@
 from fastapi import FastAPI, HTTPException
-from fastapi.middleware.cors import CORSMiddleware
+from fastapi.middleware.cors import (
+    CORSMiddleware,
+)
 from sqlalchemy.exc import SQLAlchemyError
 
-from app.database import check_database_connection
+from app.database import (
+    check_database_connection,
+)
+from app.routers.students import (
+    router as students_router,
+)
 
 
 app = FastAPI(
     title="InkluMap API",
     description=(
-        "API untuk sistem pemetaan kebutuhan akomodasi "
-        "pembelajaran sekolah inklusif."
+        "API untuk sistem pemetaan kebutuhan "
+        "akomodasi pembelajaran sekolah inklusif."
     ),
-    version="0.2.0",
+    version="0.3.0",
 )
 
 app.add_middleware(
@@ -25,17 +32,29 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.include_router(
+    students_router
+)
 
-@app.get("/")
+
+@app.get(
+    "/",
+    tags=["System"],
+)
 def read_root():
     return {
         "application": "InkluMap",
-        "message": "InkluMap API berhasil dijalankan.",
-        "version": "0.2.0",
+        "message": (
+            "InkluMap API berhasil dijalankan."
+        ),
+        "version": "0.3.0",
     }
 
 
-@app.get("/health")
+@app.get(
+    "/health",
+    tags=["System"],
+)
 def health_check():
     return {
         "status": "healthy",
@@ -43,10 +62,15 @@ def health_check():
     }
 
 
-@app.get("/health/database")
+@app.get(
+    "/health/database",
+    tags=["System"],
+)
 def database_health_check():
     try:
-        database_information = check_database_connection()
+        database_information = (
+            check_database_connection()
+        )
 
         return {
             "status": "healthy",
@@ -57,5 +81,8 @@ def database_health_check():
     except SQLAlchemyError as error:
         raise HTTPException(
             status_code=503,
-            detail="Koneksi ke database PostgreSQL gagal.",
+            detail=(
+                "Koneksi ke database "
+                "PostgreSQL gagal."
+            ),
         ) from error
