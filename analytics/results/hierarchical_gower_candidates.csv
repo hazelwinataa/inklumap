@@ -1,0 +1,11 @@
+﻿method,configuration,linkage,n_clusters,silhouette_score,davies_bouldin_index,inertia,noise_count,noise_ratio,minimum_cluster_size,maximum_cluster_size
+hierarchical_gower,linkage=average;k=5,average,5,0.6757311738403144,,,0,0.0,10,26
+hierarchical_gower,linkage=complete;k=5,complete,5,0.6757311738403144,,,0,0.0,10,26
+hierarchical_gower,linkage=average;k=6,average,6,0.6094963412721016,,,0,0.0,1,26
+hierarchical_gower,linkage=average;k=4,average,4,0.6082146326338124,,,0,0.0,10,46
+hierarchical_gower,linkage=complete;k=4,complete,4,0.6082146326338124,,,0,0.0,10,46
+hierarchical_gower,linkage=complete;k=6,complete,6,0.5325795698242147,,,0,0.0,10,26
+hierarchical_gower,linkage=average;k=3,average,3,0.5202663083953084,,,0,0.0,18,46
+hierarchical_gower,linkage=complete;k=3,complete,3,0.5009053712732842,,,0,0.0,22,46
+hierarchical_gower,linkage=average;k=2,average,2,0.39916805202951866,,,0,0.0,46,50
+hierarchical_gower,linkage=complete;k=2,complete,2,0.39916805202951866,,,0,0.0,46,50

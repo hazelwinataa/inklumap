@@ -1,0 +1,34 @@
+{
+  "dataset": {
+    "row_count": 96,
+    "kmeans_encoded_feature_count": 18,
+    "gower_variable_count": 10
+  },
+  "best_kmeans_baseline": {
+    "configuration": "k=5",
+    "n_clusters": 5,
+    "silhouette_score": 0.6128640369979653,
+    "davies_bouldin_index": 0.5630914652214278,
+    "inertia": 256.68029573216216
+  },
+  "best_hierarchical_gower": {
+    "configuration": "linkage=average;k=5",
+    "linkage": "average",
+    "n_clusters": 5,
+    "silhouette_score": 0.6757311738403144,
+    "minimum_cluster_size": 10,
+    "maximum_cluster_size": 26
+  },
+  "best_dbscan_gower": {
+    "configuration": "eps=0.1000;min_samples=3",
+    "n_clusters": 5,
+    "silhouette_score": 0.686896517059865,
+    "noise_count": 4,
+    "noise_ratio": 0.041666666666666664
+  },
+  "primary_model": {
+    "method": "hierarchical_gower",
+    "selection_basis": "Hierarchical Gower dipakai sebagai model utama karena data terdiri dari fitur ordinal dan kategorikal. Jumlah cluster dan linkage terbaik dipilih berdasarkan silhouette tertinggi di dalam eksperimen hierarchical."
+  },
+  "comparison_note": "Silhouette K-Means dan Hierarchical Gower tidak digunakan sebagai satu-satunya dasar pemilihan lintas metode karena menggunakan ruang jarak yang berbeda."
+}
