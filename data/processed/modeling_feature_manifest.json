@@ -1,0 +1,64 @@
+{
+  "dataset_name": "InkluMap Initial Clustering Dataset",
+  "source_file": "data/processed/data_siswa_clean.csv",
+  "source_row_count": 120,
+  "modeling_row_count": 96,
+  "status_filter": "Lengkap",
+  "identifier_columns": [
+    "student_code"
+  ],
+  "ordinal_features": [
+    "visual_score",
+    "hearing_score",
+    "communication_score",
+    "instruction_score",
+    "attention_score",
+    "mobility_score",
+    "assistance_score",
+    "evaluation_adjustment_score"
+  ],
+  "binary_preference_features": [
+    "preference_caption_text",
+    "preference_audio",
+    "preference_audio_visual",
+    "preference_simple_visual",
+    "preference_digital"
+  ],
+  "binary_assistive_tool_features": [
+    "tool_caption_device",
+    "tool_text_to_speech",
+    "tool_adaptive_writing",
+    "tool_none",
+    "tool_mobility_device"
+  ],
+  "model_feature_columns": [
+    "visual_score",
+    "hearing_score",
+    "communication_score",
+    "instruction_score",
+    "attention_score",
+    "mobility_score",
+    "assistance_score",
+    "evaluation_adjustment_score",
+    "preference_caption_text",
+    "preference_audio",
+    "preference_audio_visual",
+    "preference_simple_visual",
+    "preference_digital",
+    "tool_caption_device",
+    "tool_text_to_speech",
+    "tool_adaptive_writing",
+    "tool_none",
+    "tool_mobility_device"
+  ],
+  "feature_count": 18,
+  "excluded_output_columns": [
+    "Kelompok Kebutuhan",
+    "Kebutuhan Dominan",
+    "Prioritas",
+    "Status Tindak Lanjut",
+    "Rekomendasi Utama",
+    "Perlu Tindak Lanjut"
+  ],
+  "leakage_prevention": "Kolom kelompok kebutuhan, kebutuhan dominan, prioritas, rekomendasi, dan status tindak lanjut tidak digunakan sebagai fitur clustering."
+}
