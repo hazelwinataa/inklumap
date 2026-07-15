@@ -1,0 +1,6 @@
+﻿cluster_id,cluster_name,medoid_student_code,cluster_size,mean_medoid_distance
+1,Dukungan Instruksi Terstruktur,SIS-066,20,0.09166666666666669
+2,Akses Visual dan Materi Auditori,SIS-002,22,0.0984848484848485
+3,Akses Pendengaran dan Komunikasi Tertulis,SIS-052,18,0.09074074074074075
+4,Akses Mobilitas dan Lingkungan Belajar,SIS-011,10,0.07999999999999999
+5,Evaluasi Adaptif dan Pendampingan Intensif,SIS-036,26,0.0782051282051282

@@ -1,0 +1,97 @@
+﻿student_code,cluster_id,cluster_name,critical_domain_count,high_domain_count,average_need_score,dbscan_unique_case,individual_silhouette,priority_current,priority_balanced,priority_selective
+SIS-001,3,Akses Pendengaran dan Komunikasi Tertulis,1,3,1.0,False,0.7426682488557382,medium,medium,medium
+SIS-002,2,Akses Visual dan Materi Auditori,1,2,1.125,False,0.7757073844030367,medium,medium,medium
+SIS-003,5,Evaluasi Adaptif dan Pendampingan Intensif,2,4,1.5,False,0.7212669683257917,high,medium,medium
+SIS-004,1,Dukungan Instruksi Terstruktur,1,3,1.125,False,0.676555023923445,medium,medium,medium
+SIS-005,2,Akses Visual dan Materi Auditori,1,1,0.75,False,0.7423352902804956,medium,medium,medium
+SIS-006,2,Akses Visual dan Materi Auditori,1,3,1.125,False,0.7098387993329628,medium,medium,medium
+SIS-007,1,Dukungan Instruksi Terstruktur,1,4,1.375,False,0.5693017404067938,high,medium,medium
+SIS-008,1,Dukungan Instruksi Terstruktur,2,4,1.625,False,0.60688995215311,high,medium,medium
+SIS-009,2,Akses Visual dan Materi Auditori,1,2,1.25,False,0.6889400921658986,medium,medium,medium
+SIS-010,2,Akses Visual dan Materi Auditori,1,1,0.5,False,0.7045324153757889,medium,medium,medium
+SIS-011,4,Akses Mobilitas dan Lingkungan Belajar,1,2,1.125,False,0.8101402373247035,medium,medium,medium
+SIS-012,5,Evaluasi Adaptif dan Pendampingan Intensif,4,4,1.625,False,0.6729064039408865,high,high,high
+SIS-013,2,Akses Visual dan Materi Auditori,1,2,1.125,False,0.7056878306878307,medium,medium,medium
+SIS-014,1,Dukungan Instruksi Terstruktur,1,2,1.125,False,0.6439531430457021,medium,medium,medium
+SIS-015,3,Akses Pendengaran dan Komunikasi Tertulis,1,3,1.25,False,0.6759156492785794,medium,medium,medium
+SIS-016,5,Evaluasi Adaptif dan Pendampingan Intensif,2,4,1.375,False,0.656038647342995,high,medium,medium
+SIS-021,4,Akses Mobilitas dan Lingkungan Belajar,1,1,1.0,False,0.8011299435028248,medium,medium,medium
+SIS-022,4,Akses Mobilitas dan Lingkungan Belajar,0,3,1.25,True,0.6165577342047931,medium,medium,medium
+SIS-023,2,Akses Visual dan Materi Auditori,0,1,0.625,False,0.7015425888665325,low,low,low
+SIS-024,1,Dukungan Instruksi Terstruktur,3,4,1.625,False,0.5776478232618583,high,high,high
+SIS-025,4,Akses Mobilitas dan Lingkungan Belajar,1,4,1.375,True,0.570999570999571,high,medium,medium
+SIS-026,2,Akses Visual dan Materi Auditori,1,1,1.0,False,0.7097324985771201,medium,medium,medium
+SIS-027,5,Evaluasi Adaptif dan Pendampingan Intensif,3,3,1.375,False,0.6928270042194092,high,high,high
+SIS-028,4,Akses Mobilitas dan Lingkungan Belajar,0,1,0.75,False,0.710414246999613,low,low,low
+SIS-029,5,Evaluasi Adaptif dan Pendampingan Intensif,1,3,1.0,False,0.6401746724890829,medium,medium,medium
+SIS-030,3,Akses Pendengaran dan Komunikasi Tertulis,1,3,1.375,False,0.6911320419406433,medium,medium,medium
+SIS-031,5,Evaluasi Adaptif dan Pendampingan Intensif,2,4,1.5,False,0.5896373056994817,high,medium,medium
+SIS-032,3,Akses Pendengaran dan Komunikasi Tertulis,1,2,0.875,False,0.7381404174573056,medium,medium,medium
+SIS-033,4,Akses Mobilitas dan Lingkungan Belajar,1,2,1.0,False,0.7607883112470268,medium,medium,medium
+SIS-034,5,Evaluasi Adaptif dan Pendampingan Intensif,0,3,1.125,False,0.4770562770562769,medium,medium,medium
+SIS-035,5,Evaluasi Adaptif dan Pendampingan Intensif,3,4,1.625,False,0.6650246305418718,high,high,high
+SIS-036,5,Evaluasi Adaptif dan Pendampingan Intensif,2,4,1.375,False,0.7642512077294686,high,medium,medium
+SIS-041,2,Akses Visual dan Materi Auditori,1,3,1.25,False,0.7411764705882353,medium,medium,medium
+SIS-042,5,Evaluasi Adaptif dan Pendampingan Intensif,2,5,1.5,False,0.7237668161434977,high,high,medium
+SIS-043,3,Akses Pendengaran dan Komunikasi Tertulis,0,3,1.25,False,0.6092436974789917,medium,medium,medium
+SIS-044,5,Evaluasi Adaptif dan Pendampingan Intensif,1,3,1.125,False,0.6148148148148149,medium,medium,medium
+SIS-045,1,Dukungan Instruksi Terstruktur,1,4,1.5,False,0.6732835549080314,high,medium,medium
+SIS-046,2,Akses Visual dan Materi Auditori,1,3,1.25,False,0.7132235793945831,medium,medium,medium
+SIS-047,3,Akses Pendengaran dan Komunikasi Tertulis,1,3,1.125,False,0.7887938558212603,medium,medium,medium
+SIS-048,1,Dukungan Instruksi Terstruktur,2,3,1.25,False,0.670651204281891,high,medium,medium
+SIS-049,3,Akses Pendengaran dan Komunikasi Tertulis,2,3,1.5,False,0.7007595831125243,high,medium,medium
+SIS-050,3,Akses Pendengaran dan Komunikasi Tertulis,2,2,1.125,False,0.6735905044510384,high,medium,medium
+SIS-051,5,Evaluasi Adaptif dan Pendampingan Intensif,3,4,1.375,False,0.6917073170731707,high,high,high
+SIS-052,3,Akses Pendengaran dan Komunikasi Tertulis,1,3,1.25,False,0.8032523589640634,medium,medium,medium
+SIS-053,1,Dukungan Instruksi Terstruktur,2,3,1.375,False,0.5770334928229666,high,medium,medium
+SIS-054,4,Akses Mobilitas dan Lingkungan Belajar,1,2,0.875,False,0.7357357357357358,medium,medium,medium
+SIS-055,3,Akses Pendengaran dan Komunikasi Tertulis,1,4,1.25,False,0.6712220241632006,high,medium,medium
+SIS-056,1,Dukungan Instruksi Terstruktur,1,3,1.125,False,0.6678589678078694,medium,medium,medium
+SIS-061,5,Evaluasi Adaptif dan Pendampingan Intensif,4,4,1.5,False,0.6539534883720929,high,high,high
+SIS-062,2,Akses Visual dan Materi Auditori,1,1,0.75,False,0.7204968944099379,medium,medium,medium
+SIS-063,5,Evaluasi Adaptif dan Pendampingan Intensif,3,5,1.625,False,0.6746411483253588,high,high,high
+SIS-064,1,Dukungan Instruksi Terstruktur,2,4,1.375,False,0.6392865007707552,high,medium,medium
+SIS-065,4,Akses Mobilitas dan Lingkungan Belajar,1,2,1.125,False,0.8101402373247035,medium,medium,medium
+SIS-066,1,Dukungan Instruksi Terstruktur,1,4,1.375,False,0.7243107769423559,high,medium,medium
+SIS-067,5,Evaluasi Adaptif dan Pendampingan Intensif,2,4,1.5,False,0.6363636363636364,high,medium,medium
+SIS-068,3,Akses Pendengaran dan Komunikasi Tertulis,1,3,1.25,False,0.761579050224741,medium,medium,medium
+SIS-069,5,Evaluasi Adaptif dan Pendampingan Intensif,1,3,1.125,False,0.6287081339712918,medium,medium,medium
+SIS-070,2,Akses Visual dan Materi Auditori,1,2,1.25,False,0.7005772005772006,medium,medium,medium
+SIS-071,3,Akses Pendengaran dan Komunikasi Tertulis,0,1,0.625,False,0.6379799508227728,low,low,low
+SIS-072,3,Akses Pendengaran dan Komunikasi Tertulis,1,4,1.375,False,0.7371256194785606,high,medium,medium
+SIS-073,2,Akses Visual dan Materi Auditori,0,2,1.0,False,0.6763392857142857,medium,low,low
+SIS-074,2,Akses Visual dan Materi Auditori,1,4,1.375,False,0.5275888133030991,high,medium,medium
+SIS-075,1,Dukungan Instruksi Terstruktur,3,3,1.375,False,0.5252416756176154,high,high,high
+SIS-076,2,Akses Visual dan Materi Auditori,1,1,1.125,False,0.7427035330261136,medium,medium,medium
+SIS-081,1,Dukungan Instruksi Terstruktur,1,4,1.125,False,0.6643495531281034,high,medium,medium
+SIS-082,1,Dukungan Instruksi Terstruktur,2,4,1.375,False,0.6795147720602621,high,medium,medium
+SIS-083,1,Dukungan Instruksi Terstruktur,3,4,1.375,False,0.5577346407844708,high,high,high
+SIS-084,3,Akses Pendengaran dan Komunikasi Tertulis,2,2,1.375,False,0.7346446465021339,high,medium,medium
+SIS-085,1,Dukungan Instruksi Terstruktur,2,3,1.5,False,0.6547752359622462,high,medium,medium
+SIS-086,3,Akses Pendengaran dan Komunikasi Tertulis,0,4,1.25,False,0.6725892703122305,high,medium,medium
+SIS-087,4,Akses Mobilitas dan Lingkungan Belajar,1,2,1.125,False,0.7134717134717135,medium,medium,medium
+SIS-088,4,Akses Mobilitas dan Lingkungan Belajar,1,4,1.625,True,0.6310272536687632,high,medium,medium
+SIS-089,2,Akses Visual dan Materi Auditori,1,2,0.875,False,0.7294948397609994,medium,medium,medium
+SIS-090,1,Dukungan Instruksi Terstruktur,1,3,1.25,False,0.6728690412900938,medium,medium,medium
+SIS-091,2,Akses Visual dan Materi Auditori,1,3,1.25,False,0.734453781512605,medium,medium,medium
+SIS-092,3,Akses Pendengaran dan Komunikasi Tertulis,1,1,1.0,False,0.7529031029887683,medium,medium,medium
+SIS-093,2,Akses Visual dan Materi Auditori,0,2,0.625,False,0.608843537414966,medium,low,low
+SIS-094,2,Akses Visual dan Materi Auditori,0,2,0.875,False,0.6771799628942486,medium,low,low
+SIS-095,2,Akses Visual dan Materi Auditori,1,2,1.125,False,0.7757073844030367,medium,medium,medium
+SIS-096,3,Akses Pendengaran dan Komunikasi Tertulis,1,3,1.375,False,0.7567298105682951,medium,medium,medium
+SIS-101,1,Dukungan Instruksi Terstruktur,0,3,1.0,False,0.5953838083581046,medium,medium,medium
+SIS-102,5,Evaluasi Adaptif dan Pendampingan Intensif,2,3,1.375,False,0.6416289592760182,high,medium,medium
+SIS-103,5,Evaluasi Adaptif dan Pendampingan Intensif,3,4,1.375,False,0.7030567685589519,high,high,high
+SIS-104,5,Evaluasi Adaptif dan Pendampingan Intensif,3,4,1.5,False,0.7139896373056994,high,high,high
+SIS-105,5,Evaluasi Adaptif dan Pendampingan Intensif,2,5,1.625,False,0.6860759493670886,high,high,medium
+SIS-106,1,Dukungan Instruksi Terstruktur,0,3,1.25,True,0.4173461823573018,medium,medium,medium
+SIS-107,5,Evaluasi Adaptif dan Pendampingan Intensif,3,5,1.625,False,0.6875536480686695,high,high,high
+SIS-108,5,Evaluasi Adaptif dan Pendampingan Intensif,1,4,1.375,False,0.5951417004048584,high,medium,medium
+SIS-109,5,Evaluasi Adaptif dan Pendampingan Intensif,1,4,1.25,False,0.5421965317919074,high,medium,medium
+SIS-110,3,Akses Pendengaran dan Komunikasi Tertulis,0,2,1.125,False,0.7013574660633485,medium,low,low
+SIS-111,2,Akses Visual dan Materi Auditori,1,2,1.0,False,0.7135955831608006,medium,medium,medium
+SIS-112,5,Evaluasi Adaptif dan Pendampingan Intensif,2,3,1.5,False,0.6085106382978723,high,medium,medium
+SIS-113,5,Evaluasi Adaptif dan Pendampingan Intensif,1,4,1.25,False,0.6310502283105023,high,medium,medium
+SIS-114,5,Evaluasi Adaptif dan Pendampingan Intensif,3,4,1.5,False,0.7139896373056994,high,high,high
+SIS-115,1,Dukungan Instruksi Terstruktur,3,5,1.75,False,0.5279662571061801,high,high,high
+SIS-116,2,Akses Visual dan Materi Auditori,1,2,0.875,False,0.7121771217712176,medium,medium,medium

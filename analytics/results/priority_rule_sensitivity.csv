@@ -1,0 +1,4 @@
+﻿rule_name,high_count,high_percentage,medium_count,medium_percentage,low_count,low_percentage,high_critical_domains,high_scored_domains,high_average_score,medium_critical_domains,medium_scored_domains,medium_average_score
+current,45,46.875,48,50.0,3,3.125,2,4,1.75,1,2,1.0
+balanced,16,16.666666666666664,73,76.04166666666666,7,7.291666666666667,3,5,2.0,1,3,1.25
+selective,14,14.583333333333334,75,78.125,7,7.291666666666667,3,6,2.25,1,3,1.25

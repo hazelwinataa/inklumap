@@ -1,0 +1,26 @@
+{
+  "total_students": 96,
+  "cluster_count": 5,
+  "cluster_sizes": {
+    "1": 20,
+    "2": 22,
+    "3": 18,
+    "4": 10,
+    "5": 26
+  },
+  "priority_counts": {
+    "high": 16,
+    "medium": 73,
+    "low": 7
+  },
+  "critical_access_review_count": 40,
+  "dbscan_unique_case_count": 4,
+  "human_review_count": 58,
+  "priority_rule": {
+    "selected_rule": "balanced",
+    "high": "Minimal tiga domain berskor 3, atau minimal lima domain berskor 2-3, atau rata-rata skor minimal 2.00.",
+    "medium": "Minimal satu domain berskor 3, atau minimal tiga domain berskor 2-3, atau rata-rata skor minimal 1.25.",
+    "low": "Tidak memenuhi kriteria prioritas tinggi atau sedang."
+  },
+  "disclaimer": "Hasil cluster dan prioritas merupakan dukungan pengambilan keputusan, bukan diagnosis. Seluruh rekomendasi perlu divalidasi oleh guru atau tenaga pendukung yang berwenang."
+}
