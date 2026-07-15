@@ -1,111 +1,108 @@
+import type {
+  Metadata,
+} from "next";
 import {
-  getAnalyticsSummary,
+  ClipboardCheck,
+  ClipboardList,
+  Clock3,
+  Users,
+} from "lucide-react";
+import type {
+  ComponentType,
+} from "react";
+
+import StudentsTable from "@/components/students-table";
+import {
+  getStudents,
+  getStudentSummary,
 } from "@/lib/api";
 
 
-export default async function Home() {
-  const summary =
-    await getAnalyticsSummary();
+export const metadata: Metadata = {
+  title: "Data Siswa",
+};
+
+
+export default async function StudentsPage() {
+  const [
+    summary,
+    students,
+  ] = await Promise.all([
+    getStudentSummary(),
+    getStudents({
+      limit: 10,
+    }),
+  ]);
 
   return (
-    <main className="min-h-screen bg-slate-50 px-6 py-10 text-slate-900">
+    <div className="px-4 py-8 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
-        <header className="mb-10">
+        <header className="mb-8">
           <p className="mb-2 text-sm font-semibold uppercase tracking-widest text-blue-700">
-            Dashboard Sekolah Inklusif
+            Manajemen Data
           </p>
 
-          <h1 className="text-4xl font-bold tracking-tight">
-            InkluMap
+          <h1 className="text-3xl font-bold tracking-tight text-slate-900">
+            Data Siswa
           </h1>
 
           <p className="mt-3 max-w-3xl text-slate-600">
-            Sistem pemetaan kebutuhan akomodasi
-            pembelajaran berbasis data mining.
+            Lihat data siswa dan pantau status
+            kelengkapan asesmen kebutuhan
+            akomodasi pembelajaran.
           </p>
         </header>
 
-        {!summary ? (
+        {!summary || !students ? (
           <section className="rounded-2xl border border-red-200 bg-red-50 p-6">
-            <h2 className="text-lg font-semibold text-red-800">
-              Backend belum terhubung
+            <h2 className="font-semibold text-red-800">
+              Data siswa belum dapat dimuat
             </h2>
 
-            <p className="mt-2 text-red-700">
-              Pastikan FastAPI berjalan pada
-              http://127.0.0.1:8000.
+            <p className="mt-2 text-sm text-red-700">
+              Pastikan FastAPI dan PostgreSQL
+              masih berjalan.
             </p>
           </section>
         ) : (
           <>
-            <section className="mb-8 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-              <p className="text-sm text-slate-500">
-                Model analitik aktif
-              </p>
-
-              <h2 className="mt-1 text-xl font-semibold">
-                {summary.model_name}
-              </h2>
-
-              <p className="mt-2 text-sm text-slate-600">
-                Silhouette Score:{" "}
-                <span className="font-semibold">
-                  {summary.silhouette_score?.toFixed(
-                    4,
-                  )}
-                </span>
-              </p>
-            </section>
-
-            <section className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            <section className="mb-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
               <SummaryCard
-                title="Siswa Dianalisis"
+                title="Total Siswa"
                 value={summary.total_students}
+                description="Seluruh siswa terdaftar"
+                icon={Users}
               />
 
               <SummaryCard
-                title="Kelompok Kebutuhan"
-                value={summary.cluster_count}
+                title="Asesmen Lengkap"
+                value={summary.complete}
+                description="Siap dianalisis"
+                icon={ClipboardCheck}
               />
 
               <SummaryCard
-                title="Prioritas Tinggi"
-                value={summary.high_priority}
+                title="Belum Lengkap"
+                value={summary.incomplete}
+                description="Perlu dilengkapi"
+                icon={ClipboardList}
               />
 
               <SummaryCard
-                title="Prioritas Sedang"
-                value={summary.medium_priority}
-              />
-
-              <SummaryCard
-                title="Prioritas Rendah"
-                value={summary.low_priority}
-              />
-
-              <SummaryCard
-                title="Akses Kritis"
-                value={summary.critical_access}
-              />
-
-              <SummaryCard
-                title="Perlu Validasi Guru"
-                value={
-                  summary.needs_human_review
-                }
-              />
-
-              <SummaryCard
-                title="Kasus Unik"
-                value={
-                  summary.dbscan_unique_cases
-                }
+                title="Belum Dimulai"
+                value={summary.not_started}
+                description="Belum memiliki asesmen"
+                icon={Clock3}
               />
             </section>
+
+            <StudentsTable
+              initialData={students}
+            />
           </>
         )}
       </div>
-    </main>
+    </div>
   );
 }
 
@@ -113,22 +110,41 @@ export default async function Home() {
 interface SummaryCardProps {
   title: string;
   value: number;
+  description: string;
+  icon: ComponentType<{
+    size?: number;
+    className?: string;
+  }>;
 }
 
 
 function SummaryCard({
   title,
   value,
+  description,
+  icon: Icon,
 }: SummaryCardProps) {
   return (
-    <article className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-      <p className="text-sm font-medium text-slate-600">
-        {title}
-      </p>
+    <article className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <p className="text-sm font-medium text-slate-600">
+            {title}
+          </p>
 
-      <p className="mt-3 text-4xl font-bold text-slate-900">
-        {value}
-      </p>
+          <p className="mt-2 text-3xl font-bold text-slate-900">
+            {value}
+          </p>
+
+          <p className="mt-1 text-xs text-slate-500">
+            {description}
+          </p>
+        </div>
+
+        <div className="rounded-xl bg-blue-50 p-3 text-blue-700">
+          <Icon size={22} />
+        </div>
+      </div>
     </article>
   );
 }
