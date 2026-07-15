@@ -11,7 +11,7 @@ def test_root_endpoint(
     response_data = response.json()
 
     assert response_data["application"] == "InkluMap"
-    assert response_data["version"] == "0.3.0"
+    assert response_data["version"] == "0.4.0"
 
 
 def test_health_endpoint(

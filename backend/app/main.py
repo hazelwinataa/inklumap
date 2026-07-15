@@ -7,6 +7,9 @@ from sqlalchemy.exc import SQLAlchemyError
 from app.database import (
     check_database_connection,
 )
+from app.routers.analytics import (
+    router as analytics_router,
+)
 from app.routers.students import (
     router as students_router,
 )
@@ -18,7 +21,7 @@ app = FastAPI(
         "API untuk sistem pemetaan kebutuhan "
         "akomodasi pembelajaran sekolah inklusif."
     ),
-    version="0.3.0",
+    version="0.4.0",
 )
 
 app.add_middleware(
@@ -36,6 +39,10 @@ app.include_router(
     students_router
 )
 
+app.include_router(
+    analytics_router
+)
+
 
 @app.get(
     "/",
@@ -47,7 +54,7 @@ def read_root():
         "message": (
             "InkluMap API berhasil dijalankan."
         ),
-        "version": "0.3.0",
+        "version": "0.4.0",
     }
 
 
