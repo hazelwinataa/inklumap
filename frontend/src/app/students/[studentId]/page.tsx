@@ -33,15 +33,35 @@ interface StudentDetailPageProps {
   params: Promise<{
     studentId: string;
   }>;
+
+  searchParams: Promise<{
+    saved?: string;
+    analytics?: string;
+  }>;
 }
 
 
 export default async function StudentDetailPage({
   params,
+  searchParams,
 }: StudentDetailPageProps) {
   const {
     studentId,
   } = await params;
+
+  const {
+    saved,
+    analytics: analyticsStatus,
+  } = await searchParams;
+
+  const savedMode =
+    saved === "draft"
+    || saved === "submitted"
+      ? saved
+      : null;
+
+  const analyticsInvalidated =
+    analyticsStatus === "invalidated";
 
   const parsedStudentId =
     Number(studentId);
@@ -194,6 +214,57 @@ export default async function StudentDetailPage({
             </div>
           </div>
         </header>
+
+        {savedMode && (
+          <section
+            role="status"
+            className="mb-8 rounded-2xl border border-emerald-200 bg-emerald-50 p-5"
+          >
+            <div className="flex gap-3">
+              <CheckCircle2
+                size={23}
+                className="mt-0.5 shrink-0 text-emerald-700"
+              />
+
+              <div>
+                <h2 className="font-semibold text-emerald-900">
+                  {savedMode === "draft"
+                    ? (
+                      "Draft asesmen berhasil "
+                      + "disimpan"
+                    )
+                    : (
+                      "Asesmen berhasil "
+                      + "disubmit"
+                    )}
+                </h2>
+
+                <p className="mt-1 text-sm leading-6 text-emerald-800">
+                  {savedMode === "draft"
+                    ? (
+                      "Data asesmen telah "
+                      + "tersimpan dan dapat "
+                      + "dilanjutkan kembali."
+                    )
+                    : (
+                      "Seluruh skor asesmen "
+                      + "telah tersimpan "
+                      + "dengan lengkap."
+                    )}
+                </p>
+
+                {analyticsInvalidated && (
+                  <p className="mt-2 text-sm font-medium leading-6 text-amber-800">
+                    Hasil analytics sebelumnya
+                    telah dihapus karena data
+                    asesmen berubah. Analytics
+                    perlu dijalankan kembali.
+                  </p>
+                )}
+              </div>
+            </div>
+          </section>
+        )}
 
         <section className="mb-8 grid gap-5 lg:grid-cols-3">
           <article className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm lg:col-span-2">
@@ -523,15 +594,66 @@ export default async function StudentDetailPage({
         ) : (
           student.assessment_status
             === "complete" && (
-            <section className="rounded-2xl border border-red-200 bg-red-50 p-6">
-              <h2 className="font-semibold text-red-800">
-                Hasil analytics belum dapat dimuat
+            <section
+              className={[
+                "rounded-2xl border p-6",
+                analyticsInvalidated
+                  ? (
+                    "border-amber-200 "
+                    + "bg-amber-50"
+                  )
+                  : (
+                    "border-red-200 "
+                    + "bg-red-50"
+                  ),
+              ].join(" ")}
+            >
+              <h2
+                className={
+                  analyticsInvalidated
+                    ? (
+                      "font-semibold "
+                      + "text-amber-900"
+                    )
+                    : (
+                      "font-semibold "
+                      + "text-red-800"
+                    )
+                }
+              >
+                {analyticsInvalidated
+                  ? (
+                    "Analytics perlu "
+                    + "dijalankan kembali"
+                  )
+                  : (
+                    "Hasil analytics belum "
+                    + "dapat dimuat"
+                  )}
               </h2>
 
-              <p className="mt-2 text-sm text-red-700">
-                Pastikan FastAPI masih berjalan
-                dan hasil analytics siswa
-                tersedia.
+              <p
+                className={[
+                  "mt-2 text-sm leading-6",
+                  analyticsInvalidated
+                    ? "text-amber-800"
+                    : "text-red-700",
+                ].join(" ")}
+              >
+                {analyticsInvalidated
+                  ? (
+                    "Data asesmen sudah "
+                    + "diperbarui. Jalankan "
+                    + "kembali proses analytics "
+                    + "untuk memperoleh kelompok "
+                    + "kebutuhan dan rekomendasi "
+                    + "terbaru."
+                  )
+                  : (
+                    "Pastikan FastAPI masih "
+                    + "berjalan dan hasil "
+                    + "analytics siswa tersedia."
+                  )}
               </p>
             </section>
           )
