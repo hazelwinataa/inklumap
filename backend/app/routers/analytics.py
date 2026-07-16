@@ -35,6 +35,8 @@ from app.schemas.analytics import (
     AnalyticsStudentListItemResponse,
     AnalyticsStudentListResponse,
     AnalyticsSummaryResponse,
+    BudgetPriorityItemResponse,
+    BudgetPriorityResponse,
     ClusterProfileResponse,
 )
 
@@ -322,6 +324,332 @@ def get_cluster_profiles(
         for profile, medoid_student_code
         in rows
     ]
+
+
+@router.get(
+    "/budget-priorities",
+    response_model=BudgetPriorityResponse,
+    summary=(
+        "Mendapatkan prioritas dukungan anggaran"
+    ),
+)
+def get_budget_priorities(
+    model_version: str = Query(
+        default=DEFAULT_MODEL_VERSION,
+        min_length=1,
+        max_length=50,
+    ),
+    database: Session = Depends(get_db),
+) -> BudgetPriorityResponse:
+    profiles = (
+        database.scalars(
+            select(
+                ClusterProfile
+            )
+            .where(
+                ClusterProfile.model_version
+                == model_version
+            )
+            .order_by(
+                ClusterProfile.cluster_number
+            )
+        )
+        .all()
+    )
+
+    if not profiles:
+        raise HTTPException(
+            status_code=404,
+            detail=(
+                "Data prioritas anggaran untuk "
+                "model tersebut tidak ditemukan."
+            ),
+        )
+
+    aggregate_rows = (
+        database.execute(
+            select(
+                StudentClusterResult
+                .cluster_profile_id,
+                func.count(
+                    StudentClusterResult.id
+                ).label(
+                    "total_students"
+                ),
+                func.sum(
+                    case(
+                        (
+                            StudentClusterResult
+                            .priority_level
+                            == "high",
+                            1,
+                        ),
+                        else_=0,
+                    )
+                ).label(
+                    "high_priority"
+                ),
+                func.sum(
+                    case(
+                        (
+                            StudentClusterResult
+                            .priority_level
+                            == "medium",
+                            1,
+                        ),
+                        else_=0,
+                    )
+                ).label(
+                    "medium_priority"
+                ),
+                func.sum(
+                    case(
+                        (
+                            StudentClusterResult
+                            .priority_level
+                            == "low",
+                            1,
+                        ),
+                        else_=0,
+                    )
+                ).label(
+                    "low_priority"
+                ),
+                func.sum(
+                    case(
+                        (
+                            StudentClusterResult
+                            .critical_access_flag
+                            .is_(True),
+                            1,
+                        ),
+                        else_=0,
+                    )
+                ).label(
+                    "critical_access"
+                ),
+                func.sum(
+                    case(
+                        (
+                            StudentClusterResult
+                            .needs_human_review
+                            .is_(True),
+                            1,
+                        ),
+                        else_=0,
+                    )
+                ).label(
+                    "needs_human_review"
+                ),
+            )
+            .where(
+                StudentClusterResult.model_version
+                == model_version
+            )
+            .group_by(
+                StudentClusterResult
+                .cluster_profile_id
+            )
+        )
+        .mappings()
+        .all()
+    )
+
+    aggregates_by_profile = {
+        int(row["cluster_profile_id"]): row
+        for row in aggregate_rows
+    }
+
+    calculated_items: list[dict] = []
+
+    for profile in profiles:
+        aggregate = aggregates_by_profile.get(
+            profile.id
+        )
+
+        total_students = int(
+            aggregate["total_students"]
+            if aggregate is not None
+            else 0
+        )
+        high_priority = int(
+            aggregate["high_priority"]
+            if aggregate is not None
+            else 0
+        )
+        medium_priority = int(
+            aggregate["medium_priority"]
+            if aggregate is not None
+            else 0
+        )
+        low_priority = int(
+            aggregate["low_priority"]
+            if aggregate is not None
+            else 0
+        )
+        critical_access = int(
+            aggregate["critical_access"]
+            if aggregate is not None
+            else 0
+        )
+        needs_human_review = int(
+            aggregate["needs_human_review"]
+            if aggregate is not None
+            else 0
+        )
+
+        priority_points = (
+            (high_priority * 3)
+            + (medium_priority * 2)
+            + low_priority
+            + (critical_access * 2)
+            + needs_human_review
+        )
+
+        maximum_points = (
+            total_students * 6
+        )
+
+        urgency_index = (
+            round(
+                (
+                    priority_points
+                    / maximum_points
+                    * 100
+                ),
+                2,
+            )
+            if maximum_points > 0
+            else 0.0
+        )
+
+        if urgency_index >= 60:
+            urgency_level = "high"
+        elif urgency_index >= 40:
+            urgency_level = "medium"
+        else:
+            urgency_level = "low"
+
+        calculated_items.append(
+            {
+                "cluster_number": (
+                    profile.cluster_number
+                ),
+                "cluster_name": (
+                    profile.cluster_name
+                ),
+                "dominant_need": (
+                    profile.dominant_need
+                ),
+                "description": (
+                    profile.description
+                ),
+                "total_students": (
+                    total_students
+                ),
+                "high_priority": (
+                    high_priority
+                ),
+                "medium_priority": (
+                    medium_priority
+                ),
+                "low_priority": low_priority,
+                "critical_access": (
+                    critical_access
+                ),
+                "needs_human_review": (
+                    needs_human_review
+                ),
+                "priority_points": (
+                    priority_points
+                ),
+                "urgency_index": (
+                    urgency_index
+                ),
+                "urgency_level": (
+                    urgency_level
+                ),
+                "recommended_actions": list(
+                    profile.recommendations
+                    or []
+                ),
+                "rationale": (
+                    "Prioritas dihitung dari "
+                    f"{total_students} siswa: "
+                    f"{high_priority} prioritas "
+                    "tinggi, "
+                    f"{critical_access} hambatan "
+                    "akses kritis, dan "
+                    f"{needs_human_review} hasil "
+                    "yang memerlukan validasi "
+                    "guru."
+                ),
+            }
+        )
+
+    calculated_items.sort(
+        key=lambda item: (
+            -item["priority_points"],
+            item["cluster_number"],
+        )
+    )
+
+    total_priority_points = sum(
+        item["priority_points"]
+        for item in calculated_items
+    )
+
+    response_items = [
+        BudgetPriorityItemResponse(
+            rank=index,
+            priority_share_percentage=(
+                round(
+                    (
+                        item["priority_points"]
+                        / total_priority_points
+                        * 100
+                    ),
+                    2,
+                )
+                if total_priority_points > 0
+                else 0.0
+            ),
+            **item,
+        )
+        for index, item
+        in enumerate(
+            calculated_items,
+            start=1,
+        )
+    ]
+
+    model_name = profiles[0].model_name
+
+    return BudgetPriorityResponse(
+        model_version=model_version,
+        model_name=model_name,
+        total_students=sum(
+            item.total_students
+            for item in response_items
+        ),
+        total_priority_points=(
+            total_priority_points
+        ),
+        methodology=(
+            "Skor prioritas = 3 x jumlah "
+            "prioritas tinggi + 2 x prioritas "
+            "sedang + 1 x prioritas rendah + "
+            "2 x akses kritis + 1 x kebutuhan "
+            "validasi guru."
+        ),
+        budget_note=(
+            "Nilai ini digunakan untuk "
+            "pemeringkatan kebutuhan sumber "
+            "daya dan bukan estimasi nominal "
+            "biaya."
+        ),
+        items=response_items,
+    )
 
 
 @router.get(

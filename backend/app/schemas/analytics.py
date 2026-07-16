@@ -1,3 +1,8 @@
+# STANDARD LIBRARY
+
+from typing import Literal
+
+
 # THIRD-PARTY LIBRARIES
 
 from pydantic import BaseModel, Field
@@ -42,6 +47,56 @@ class ClusterProfileResponse(BaseModel):
     cluster_size: int
     mean_medoid_distance: float | None
     model_silhouette_score: float | None
+
+
+class BudgetPriorityItemResponse(BaseModel):
+    rank: int
+
+    cluster_number: int
+    cluster_name: str
+    dominant_need: str
+    description: str
+
+    total_students: int
+    high_priority: int
+    medium_priority: int
+    low_priority: int
+
+    critical_access: int
+    needs_human_review: int
+
+    priority_points: int
+    priority_share_percentage: float
+    urgency_index: float
+
+    urgency_level: Literal[
+        "high",
+        "medium",
+        "low",
+    ]
+
+    recommended_actions: list[str] = Field(
+        default_factory=list,
+    )
+
+    rationale: str
+
+
+class BudgetPriorityResponse(BaseModel):
+    model_version: str
+    model_name: str
+
+    total_students: int
+    total_priority_points: int
+
+    methodology: str
+    budget_note: str
+
+    items: list[
+        BudgetPriorityItemResponse
+    ] = Field(
+        default_factory=list,
+    )
 
 
 class AnalyticsStudentListItemResponse(BaseModel):

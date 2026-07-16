@@ -395,3 +395,122 @@ def test_invalid_analytics_limit(
     )
 
     assert response.status_code == 422
+
+
+def test_get_budget_priorities(
+    client: TestClient,
+) -> None:
+    response = client.get(
+        "/api/analytics/budget-priorities"
+    )
+
+    assert response.status_code == 200
+
+    response_data = response.json()
+
+    assert (
+        response_data["model_version"]
+        == MODEL_VERSION
+    )
+    assert (
+        response_data["model_name"]
+        == "hierarchical_gower"
+    )
+
+    assert response_data["total_students"] == 96
+    assert response_data[
+        "total_priority_points"
+    ] > 0
+
+    assert (
+        "bukan estimasi nominal biaya"
+        in response_data["budget_note"]
+    )
+
+    items = response_data["items"]
+
+    assert len(items) == 5
+
+    assert [
+        item["rank"]
+        for item in items
+    ] == [1, 2, 3, 4, 5]
+
+    priority_points = [
+        item["priority_points"]
+        for item in items
+    ]
+
+    assert priority_points == sorted(
+        priority_points,
+        reverse=True,
+    )
+
+    assert sum(
+        item["total_students"]
+        for item in items
+    ) == 96
+
+    assert sum(
+        item["high_priority"]
+        for item in items
+    ) == 16
+
+    assert sum(
+        item["critical_access"]
+        for item in items
+    ) == 40
+
+    assert sum(
+        item["needs_human_review"]
+        for item in items
+    ) == 58
+
+    assert sum(
+        item["priority_share_percentage"]
+        for item in items
+    ) == pytest.approx(
+        100.0,
+        abs=0.05,
+    )
+
+    for item in items:
+        assert item["cluster_number"] > 0
+        assert item["cluster_name"]
+        assert item["dominant_need"]
+        assert item["description"]
+
+        assert 0 <= item["urgency_index"] <= 100
+
+        assert item["urgency_level"] in {
+            "high",
+            "medium",
+            "low",
+        }
+
+        assert isinstance(
+            item["recommended_actions"],
+            list,
+        )
+        assert len(
+            item["recommended_actions"]
+        ) > 0
+
+
+def test_budget_priorities_unknown_model(
+    client: TestClient,
+) -> None:
+    response = client.get(
+        "/api/analytics/budget-priorities",
+        params={
+            "model_version": "unknown_model",
+        },
+    )
+
+    assert response.status_code == 404
+    assert response.json() == {
+        "detail": (
+            "Data prioritas anggaran untuk "
+            "model tersebut tidak ditemukan."
+        )
+    }
