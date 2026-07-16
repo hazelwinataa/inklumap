@@ -1,4 +1,3 @@
-
 "use client";
 
 import {
@@ -73,7 +72,7 @@ export default function DashboardLayout({
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900">
-      <aside className="fixed inset-y-0 left-0 z-40 hidden w-72 flex-col border-r border-slate-800 bg-slate-950 lg:flex">
+      <aside className="fixed inset-y-0 left-0 z-40 hidden w-72 flex-col border-r border-slate-800 bg-slate-950 lg:flex print:hidden">
         <SidebarContent
           pathname={pathname}
           closeMenu={() => {
@@ -83,7 +82,7 @@ export default function DashboardLayout({
       </aside>
 
       {mobileMenuOpen && (
-        <div className="fixed inset-0 z-50 lg:hidden">
+        <div className="fixed inset-0 z-50 lg:hidden print:hidden">
           <button
             type="button"
             aria-label="Tutup menu navigasi"
@@ -115,8 +114,8 @@ export default function DashboardLayout({
         </div>
       )}
 
-      <div className="lg:pl-72">
-        <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-slate-200 bg-white/95 px-4 backdrop-blur sm:px-6 lg:px-8">
+      <div className="lg:pl-72 print:pl-0">
+        <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-slate-200 bg-white/95 px-4 backdrop-blur sm:px-6 lg:px-8 print:hidden">
           <div className="flex items-center gap-3">
             <button
               type="button"
