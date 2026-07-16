@@ -1,3 +1,4 @@
+
 export type PriorityLevel =
   | "high"
   | "medium"
@@ -122,4 +123,49 @@ export interface AnalyticsStudentDetail {
   material_preference: string | null;
   assistive_tool: string | null;
   recommendation_status: string | null;
+}
+
+export type UrgencyLevel =
+  | "high"
+  | "medium"
+  | "low";
+
+
+export interface BudgetPriorityItem {
+  rank: number;
+  cluster_number: number;
+  cluster_name: string;
+  dominant_need: string;
+  description: string;
+
+  total_students: number;
+  high_priority: number;
+  medium_priority: number;
+  low_priority: number;
+
+  critical_access: number;
+  needs_human_review: number;
+
+  priority_points: number;
+  priority_share_percentage: number;
+
+  urgency_index: number;
+  urgency_level: UrgencyLevel;
+
+  recommended_actions: string[];
+  rationale: string;
+}
+
+
+export interface BudgetPriorityResponse {
+  model_version: string;
+  model_name: string;
+
+  total_students: number;
+  total_priority_points: number;
+
+  methodology: string;
+  budget_note: string;
+
+  items: BudgetPriorityItem[];
 }

@@ -1,7 +1,9 @@
+
 import type {
   AnalyticsStudentDetail,
   AnalyticsStudentListResponse,
   AnalyticsSummary,
+  BudgetPriorityResponse,
   ClusterProfile,
   GetAnalyticsStudentsParams,
 } from "@/types/analytics";
@@ -74,6 +76,30 @@ export async function getAnalyticsSummary():
   try {
     const response = await fetch(
       `${API_URL}/api/analytics/summary`,
+      {
+        cache: "no-store",
+      },
+    );
+
+    if (!response.ok) {
+      return null;
+    }
+
+    return await response.json();
+  } catch {
+    return null;
+  }
+}
+
+
+export async function getBudgetPriorities():
+  Promise<BudgetPriorityResponse | null> {
+  try {
+    const response = await fetch(
+      (
+        `${API_URL}/api/analytics/`
+        + "budget-priorities"
+      ),
       {
         cache: "no-store",
       },

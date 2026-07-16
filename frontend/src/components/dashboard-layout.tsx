@@ -1,3 +1,4 @@
+
 "use client";
 
 import {
@@ -49,7 +50,7 @@ const navigationItems = [
   },
   {
     label: "Prioritas Anggaran",
-    href: "/budget",
+    href: "/budget-priorities",
     icon: WalletCards,
   },
   {
