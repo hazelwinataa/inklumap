@@ -1,6 +1,9 @@
 import type {
   AnalyticsStudentDetail,
+  AnalyticsStudentListResponse,
   AnalyticsSummary,
+  ClusterProfile,
+  GetAnalyticsStudentsParams,
 } from "@/types/analytics";
 import type {
   AssessmentApiResult,
@@ -60,7 +63,7 @@ async function getApiErrorMessage(
   }
 
   return (
-    `Permintaan gagal dengan status `
+    "Permintaan gagal dengan status "
     + `${response.status}.`
   );
 }
@@ -71,6 +74,65 @@ export async function getAnalyticsSummary():
   try {
     const response = await fetch(
       `${API_URL}/api/analytics/summary`,
+      {
+        cache: "no-store",
+      },
+    );
+
+    if (!response.ok) {
+      return null;
+    }
+
+    return await response.json();
+  } catch {
+    return null;
+  }
+}
+
+
+export async function getClusterProfiles():
+  Promise<ClusterProfile[] | null> {
+  try {
+    const response = await fetch(
+      `${API_URL}/api/analytics/clusters`,
+      {
+        cache: "no-store",
+      },
+    );
+
+    if (!response.ok) {
+      return null;
+    }
+
+    return await response.json();
+  } catch {
+    return null;
+  }
+}
+
+
+export async function getAnalyticsStudents({
+  skip = 0,
+  limit = 100,
+}: GetAnalyticsStudentsParams = {}):
+  Promise<AnalyticsStudentListResponse | null> {
+  try {
+    const url = new URL(
+      `${API_URL}/api/analytics/students`,
+    );
+
+    url.searchParams.set(
+      "skip",
+      String(skip),
+    );
+
+    url.searchParams.set(
+      "limit",
+      String(limit),
+    );
+
+    const response = await fetch(
+      url.toString(),
       {
         cache: "no-store",
       },

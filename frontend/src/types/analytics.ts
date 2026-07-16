@@ -22,6 +22,66 @@ export interface AnalyticsSummary {
 }
 
 
+export interface ClusterProfile {
+  id: number;
+  cluster_number: number;
+
+  model_version: string;
+  model_name: string;
+  distance_metric: string;
+  linkage: string;
+
+  cluster_name: string;
+  dominant_need: string;
+  description: string;
+  recommendations: string[];
+
+  medoid_student_code: string;
+  cluster_size: number;
+  mean_medoid_distance: number;
+  model_silhouette_score: number | null;
+}
+
+
+export interface AnalyticsStudentListItem {
+  student_id: number;
+  student_code: string;
+  initials: string | null;
+  grade_level: string | null;
+  class_name: string | null;
+
+  assessment_id: number;
+  cluster_result_id: number;
+
+  cluster_number: number;
+  cluster_name: string;
+  priority_level: PriorityLevel;
+
+  dominant_needs: string[];
+
+  critical_access_flag: boolean;
+  dbscan_unique_case: boolean;
+  needs_human_review: boolean;
+
+  individual_silhouette: number;
+  mean_distance_to_cluster: number;
+}
+
+
+export interface AnalyticsStudentListResponse {
+  total: number;
+  skip: number;
+  limit: number;
+  items: AnalyticsStudentListItem[];
+}
+
+
+export interface GetAnalyticsStudentsParams {
+  skip?: number;
+  limit?: number;
+}
+
+
 export interface AnalyticsStudentDetail {
   student_id: number;
   student_code: string;
