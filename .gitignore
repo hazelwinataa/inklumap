@@ -1,6 +1,9 @@
 # Python
 __pycache__/
 *.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
 .venv/
 venv/
 
@@ -19,7 +22,7 @@ dist/
 *.log
 npm-debug.log*
 
-# Model artifacts
+# Model artifacts generated locally
 *.pkl
 *.joblib
 
@@ -30,6 +33,10 @@ npm-debug.log*
 
 # Private data
 data/private/
+
+# Temporary project context
+*_context.txt
+finalization_context.txt
 
 # Temporary files
 *.tmp
