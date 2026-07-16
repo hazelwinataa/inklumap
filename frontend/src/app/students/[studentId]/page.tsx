@@ -6,6 +6,7 @@ import {
   FileText,
   GraduationCap,
   Lightbulb,
+  PencilLine,
   School,
   ShieldAlert,
   UserRound,
@@ -46,8 +47,8 @@ export default async function StudentDetailPage({
     Number(studentId);
 
   if (
-    !Number.isInteger(parsedStudentId) ||
-    parsedStudentId <= 0
+    !Number.isInteger(parsedStudentId)
+    || parsedStudentId <= 0
   ) {
     notFound();
   }
@@ -66,8 +67,29 @@ export default async function StudentDetailPage({
     notFound();
   }
 
-  const latestAssessment =
-    student.assessments[0] ?? null;
+  const latestAssessment = [
+    ...student.assessments,
+  ].sort(
+    (
+      firstAssessment,
+      secondAssessment,
+    ) => {
+      const dateComparison =
+        secondAssessment.assessment_date
+          .localeCompare(
+            firstAssessment.assessment_date,
+          );
+
+      if (dateComparison !== 0) {
+        return dateComparison;
+      }
+
+      return (
+        secondAssessment.id
+        - firstAssessment.id
+      );
+    },
+  )[0] ?? null;
 
   const assessmentScore =
     latestAssessment?.score ?? null;
@@ -87,15 +109,18 @@ export default async function StudentDetailPage({
         {
           label: "Komunikasi",
           value:
-            assessmentScore.communication_score,
+            assessmentScore
+              .communication_score,
         },
         {
           label: "Pemahaman Instruksi",
           value:
-            assessmentScore.instruction_score,
+            assessmentScore
+              .instruction_score,
         },
         {
-          label: "Perhatian dan Konsentrasi",
+          label:
+            "Perhatian dan Konsentrasi",
           value:
             assessmentScore.attention_score,
         },
@@ -147,11 +172,26 @@ export default async function StudentDetailPage({
               </p>
             </div>
 
-            <AssessmentStatusBadge
-              status={
-                student.assessment_status
-              }
-            />
+            <div className="flex flex-col items-start gap-3 sm:items-end">
+              <AssessmentStatusBadge
+                status={
+                  student.assessment_status
+                }
+              />
+
+              <Link
+                href={
+                  `/students/${student.id}/assessment`
+                }
+                className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-100"
+              >
+                <PencilLine size={17} />
+
+                {latestAssessment
+                  ? "Edit Asesmen"
+                  : "Mulai Asesmen"}
+              </Link>
+            </div>
           </div>
         </header>
 
@@ -175,7 +215,9 @@ export default async function StudentDetailPage({
 
             <dl className="grid gap-5 sm:grid-cols-2">
               <InformationItem
-                icon={<UserRound size={18} />}
+                icon={
+                  <UserRound size={18} />
+                }
                 label="Inisial"
                 value={
                   student.initials ?? "-"
@@ -184,7 +226,9 @@ export default async function StudentDetailPage({
 
               <InformationItem
                 icon={
-                  <GraduationCap size={18} />
+                  <GraduationCap
+                    size={18}
+                  />
                 }
                 label="Jenjang"
                 value={
@@ -193,7 +237,9 @@ export default async function StudentDetailPage({
               />
 
               <InformationItem
-                icon={<School size={18} />}
+                icon={
+                  <School size={18} />
+                }
                 label="Kelas"
                 value={
                   student.class_name ?? "-"
@@ -202,7 +248,9 @@ export default async function StudentDetailPage({
 
               <InformationItem
                 icon={
-                  <CalendarDays size={18} />
+                  <CalendarDays
+                    size={18}
+                  />
                 }
                 label="Semester"
                 value={
@@ -211,7 +259,9 @@ export default async function StudentDetailPage({
               />
 
               <InformationItem
-                icon={<FileText size={18} />}
+                icon={
+                  <FileText size={18} />
+                }
                 label="Tahun Ajaran"
                 value={
                   student.school_year ?? "-"
@@ -220,12 +270,15 @@ export default async function StudentDetailPage({
 
               <InformationItem
                 icon={
-                  <CalendarDays size={18} />
+                  <CalendarDays
+                    size={18}
+                  />
                 }
                 label="Tanggal Asesmen"
                 value={
                   latestAssessment
-                    ?.assessment_date ?? "-"
+                    ?.assessment_date
+                  ?? "-"
                 }
               />
             </dl>
@@ -241,7 +294,8 @@ export default async function StudentDetailPage({
                 label="Status"
                 value={
                   latestAssessment
-                    ?.status ?? "-"
+                    ?.status
+                  ?? "-"
                 }
               />
 
@@ -250,7 +304,7 @@ export default async function StudentDetailPage({
                 value={
                   latestAssessment
                     ?.source_information
-                    ?? "-"
+                  ?? "-"
                 }
               />
 
@@ -258,7 +312,8 @@ export default async function StudentDetailPage({
                 label="Catatan Guru"
                 value={
                   latestAssessment
-                    ?.notes ?? "-"
+                    ?.notes
+                  ?? "-"
                 }
               />
             </div>
@@ -280,7 +335,7 @@ export default async function StudentDetailPage({
 
                 <p className="mt-1 text-sm text-amber-800">
                   Data skor kebutuhan siswa
-                  belum lengkap sehingga belum
+                  belum tersedia sehingga belum
                   dapat dianalisis.
                 </p>
               </div>
@@ -296,8 +351,9 @@ export default async function StudentDetailPage({
 
                 <p className="mt-1 text-sm text-slate-500">
                   Skala 0 menunjukkan tidak
-                  membutuhkan dukungan dan skala
-                  3 menunjukkan kebutuhan tinggi.
+                  membutuhkan dukungan dan
+                  skala 3 menunjukkan kebutuhan
+                  dukungan tinggi.
                 </p>
               </div>
 
@@ -401,13 +457,18 @@ export default async function StudentDetailPage({
 
                 <p className="mt-4 text-sm leading-6 text-slate-600">
                   {analytics.priority_action
-                    ?? "Belum ada tindakan prioritas."}
+                    ?? (
+                      "Belum ada tindakan "
+                      + "prioritas."
+                    )}
                 </p>
               </article>
             </section>
 
-            {(analytics.critical_access_flag
-              || analytics.needs_human_review) && (
+            {(
+              analytics.critical_access_flag
+              || analytics.needs_human_review
+            ) && (
               <section className="mb-8 rounded-2xl border border-amber-200 bg-amber-50 p-6">
                 <div className="flex gap-3">
                   <ShieldAlert
@@ -421,8 +482,12 @@ export default async function StudentDetailPage({
                     </h2>
 
                     <p className="mt-1 text-sm leading-6 text-amber-800">
-                      {analytics.human_review_reason
-                        ?? "Hasil analisis perlu ditinjau oleh guru."}
+                      {analytics
+                        .human_review_reason
+                        ?? (
+                          "Hasil analisis perlu "
+                          + "ditinjau oleh guru."
+                        )}
                     </p>
                   </div>
                 </div>
@@ -432,7 +497,10 @@ export default async function StudentDetailPage({
             <section className="grid gap-5 lg:grid-cols-2">
               <RecommendationCard
                 title="Rekomendasi Kelompok"
-                description="Akomodasi umum berdasarkan kelompok kebutuhan siswa."
+                description={
+                  "Akomodasi umum berdasarkan "
+                  + "kelompok kebutuhan siswa."
+                }
                 values={
                   analytics
                     .cluster_recommendations
@@ -441,7 +509,10 @@ export default async function StudentDetailPage({
 
               <RecommendationCard
                 title="Rekomendasi Individual"
-                description="Akomodasi yang disesuaikan dengan hasil asesmen siswa."
+                description={
+                  "Akomodasi yang disesuaikan "
+                  + "dengan hasil asesmen siswa."
+                }
                 values={
                   analytics
                     .individual_recommendations
@@ -459,7 +530,8 @@ export default async function StudentDetailPage({
 
               <p className="mt-2 text-sm text-red-700">
                 Pastikan FastAPI masih berjalan
-                dan hasil analytics siswa tersedia.
+                dan hasil analytics siswa
+                tersedia.
               </p>
             </section>
           )
@@ -528,7 +600,7 @@ function InformationText({
 
 interface ScoreItemProps {
   label: string;
-  value: number;
+  value: number | null;
 }
 
 
@@ -537,13 +609,15 @@ function ScoreItem({
   value,
 }: ScoreItemProps) {
   const percentage =
-    Math.min(
-      100,
-      Math.max(
-        0,
-        (value / 3) * 100,
-      ),
-    );
+    value === null
+      ? 0
+      : Math.min(
+          100,
+          Math.max(
+            0,
+            (value / 3) * 100,
+          ),
+        );
 
   return (
     <div>
@@ -553,7 +627,9 @@ function ScoreItem({
         </p>
 
         <span className="rounded-lg bg-slate-100 px-2.5 py-1 text-sm font-bold text-slate-800">
-          {value}/3
+          {value === null
+            ? "Belum diisi"
+            : `${value}/3`}
         </span>
       </div>
 
@@ -563,7 +639,12 @@ function ScoreItem({
         aria-label={label}
         aria-valuemin={0}
         aria-valuemax={3}
-        aria-valuenow={value}
+        aria-valuenow={value ?? 0}
+        aria-valuetext={
+          value === null
+            ? "Belum diisi"
+            : `${value} dari 3`
+        }
       >
         <div
           className="h-full rounded-full bg-blue-600"
@@ -712,7 +793,11 @@ function AssessmentStatusBadge({
   return (
     <span
       className={[
-        "inline-flex rounded-full border px-3 py-1.5 text-sm font-semibold",
+        (
+          "inline-flex rounded-full "
+          + "border px-3 py-1.5 "
+          + "text-sm font-semibold"
+        ),
         configuration[status].className,
       ].join(" ")}
     >
@@ -723,7 +808,10 @@ function AssessmentStatusBadge({
 
 
 interface PriorityBadgeProps {
-  priority: "high" | "medium" | "low";
+  priority:
+    | "high"
+    | "medium"
+    | "low";
 }
 
 
@@ -766,7 +854,11 @@ function PriorityBadge({
   return (
     <span
       className={[
-        "inline-flex rounded-full border px-3 py-1.5 text-sm font-bold",
+        (
+          "inline-flex rounded-full "
+          + "border px-3 py-1.5 "
+          + "text-sm font-bold"
+        ),
         configuration[priority].className,
       ].join(" ")}
     >

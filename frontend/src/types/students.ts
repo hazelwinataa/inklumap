@@ -3,6 +3,11 @@ export type AssessmentStatus =
   | "incomplete"
   | "not_started";
 
+export type AssessmentRecordStatus =
+  | "draft"
+  | "submitted"
+  | "validated";
+
 
 export interface StudentListItem {
   id: number;
@@ -48,14 +53,14 @@ export interface AssessmentScore {
   id: number;
   assessment_id: number;
 
-  visual_score: number;
-  hearing_score: number;
-  communication_score: number;
-  instruction_score: number;
-  attention_score: number;
-  mobility_score: number;
-  assistance_score: number;
-  evaluation_adjustment_score: number;
+  visual_score: number | null;
+  hearing_score: number | null;
+  communication_score: number | null;
+  instruction_score: number | null;
+  attention_score: number | null;
+  mobility_score: number | null;
+  assistance_score: number | null;
+  evaluation_adjustment_score: number | null;
 
   material_preferences: string[];
   assistive_tools: string[];
@@ -70,7 +75,7 @@ export interface StudentAssessment {
   assessment_date: string;
   source_information: string | null;
   notes: string | null;
-  status: string;
+  status: AssessmentRecordStatus;
 
   created_at: string;
   updated_at: string;

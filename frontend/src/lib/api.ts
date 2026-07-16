@@ -3,6 +3,11 @@ import type {
   AnalyticsSummary,
 } from "@/types/analytics";
 import type {
+  AssessmentApiResult,
+  AssessmentCreatePayload,
+  AssessmentUpdatePayload,
+} from "@/types/assessments";
+import type {
   GetStudentsParams,
   StudentDetail,
   StudentListResponse,
@@ -13,6 +18,52 @@ import type {
 const API_URL =
   process.env.NEXT_PUBLIC_API_URL ??
   "http://127.0.0.1:8000";
+
+
+async function getApiErrorMessage(
+  response: Response,
+): Promise<string> {
+  try {
+    const responseData = await response.json();
+
+    if (
+      typeof responseData?.detail === "string"
+    ) {
+      return responseData.detail;
+    }
+
+    if (Array.isArray(responseData?.detail)) {
+      const messages = responseData.detail
+        .map((item: unknown) => {
+          if (
+            typeof item === "object"
+            && item !== null
+            && "msg" in item
+            && typeof item.msg === "string"
+          ) {
+            return item.msg;
+          }
+
+          return null;
+        })
+        .filter(
+          (message: string | null):
+            message is string => message !== null,
+        );
+
+      if (messages.length > 0) {
+        return messages.join(" ");
+      }
+    }
+  } catch {
+    // Respons error tidak selalu berbentuk JSON.
+  }
+
+  return (
+    `Permintaan gagal dengan status `
+    + `${response.status}.`
+  );
+}
 
 
 export async function getAnalyticsSummary():
@@ -88,7 +139,7 @@ export async function getStudents({
 
     if (assessmentStatus) {
       url.searchParams.set(
-        "assessment_status",
+        "status",
         assessmentStatus,
       );
     }
@@ -151,5 +202,91 @@ export async function getAnalyticsStudentDetail(
     return await response.json();
   } catch {
     return null;
+  }
+}
+
+
+export async function createAssessment(
+  payload: AssessmentCreatePayload,
+): Promise<AssessmentApiResult> {
+  try {
+    const response = await fetch(
+      `${API_URL}/api/assessments`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+        cache: "no-store",
+      },
+    );
+
+    if (!response.ok) {
+      return {
+        data: null,
+        error: await getApiErrorMessage(
+          response,
+        ),
+      };
+    }
+
+    return {
+      data: await response.json(),
+      error: null,
+    };
+  } catch {
+    return {
+      data: null,
+      error: (
+        "Backend tidak dapat dihubungi. "
+        + "Pastikan FastAPI masih berjalan."
+      ),
+    };
+  }
+}
+
+
+export async function updateAssessment(
+  assessmentId: number,
+  payload: AssessmentUpdatePayload,
+): Promise<AssessmentApiResult> {
+  try {
+    const response = await fetch(
+      (
+        `${API_URL}/api/assessments/`
+        + assessmentId
+      ),
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+        cache: "no-store",
+      },
+    );
+
+    if (!response.ok) {
+      return {
+        data: null,
+        error: await getApiErrorMessage(
+          response,
+        ),
+      };
+    }
+
+    return {
+      data: await response.json(),
+      error: null,
+    };
+  } catch {
+    return {
+      data: null,
+      error: (
+        "Backend tidak dapat dihubungi. "
+        + "Pastikan FastAPI masih berjalan."
+      ),
+    };
   }
 }
