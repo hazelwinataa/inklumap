@@ -8,17 +8,14 @@ class AssessmentScoreResponse(BaseModel):
         from_attributes=True,
     )
 
-    id: int
-    assessment_id: int
-
-    visual_score: int
-    hearing_score: int
-    communication_score: int
-    instruction_score: int
-    attention_score: int
-    mobility_score: int
-    assistance_score: int
-    evaluation_adjustment_score: int
+    visual_score: int | None
+    hearing_score: int | None
+    communication_score: int | None
+    instruction_score: int | None
+    attention_score: int | None
+    mobility_score: int | None
+    assistance_score: int | None
+    evaluation_adjustment_score: int | None
 
     material_preferences: list[str] = Field(
         default_factory=list,

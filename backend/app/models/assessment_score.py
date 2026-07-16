@@ -2,12 +2,21 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from sqlalchemy import CheckConstraint, ForeignKey, Integer
+from sqlalchemy import (
+    CheckConstraint,
+    ForeignKey,
+    Integer,
+)
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.ext.mutable import MutableList
-from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy.orm import (
+    Mapped,
+    mapped_column,
+    relationship,
+)
 
 from app.database import Base
+
 
 if TYPE_CHECKING:
     from app.models.assessment import Assessment
@@ -46,8 +55,14 @@ class AssessmentScore(Base):
             name="ck_scores_assistance",
         ),
         CheckConstraint(
-            "evaluation_adjustment_score BETWEEN 0 AND 3",
-            name="ck_scores_evaluation_adjustment",
+            (
+                "evaluation_adjustment_score "
+                "BETWEEN 0 AND 3"
+            ),
+            name=(
+                "ck_scores_"
+                "evaluation_adjustment"
+            ),
         ),
     )
 
@@ -66,58 +81,80 @@ class AssessmentScore(Base):
         index=True,
     )
 
-    visual_score: Mapped[int] = mapped_column(
-        Integer,
-        nullable=False,
+    visual_score: Mapped[int | None] = (
+        mapped_column(
+            Integer,
+            nullable=True,
+        )
     )
 
-    hearing_score: Mapped[int] = mapped_column(
-        Integer,
-        nullable=False,
+    hearing_score: Mapped[int | None] = (
+        mapped_column(
+            Integer,
+            nullable=True,
+        )
     )
 
-    communication_score: Mapped[int] = mapped_column(
+    communication_score: Mapped[
+        int | None
+    ] = mapped_column(
         Integer,
-        nullable=False,
+        nullable=True,
     )
 
-    instruction_score: Mapped[int] = mapped_column(
+    instruction_score: Mapped[
+        int | None
+    ] = mapped_column(
         Integer,
-        nullable=False,
+        nullable=True,
     )
 
-    attention_score: Mapped[int] = mapped_column(
-        Integer,
-        nullable=False,
+    attention_score: Mapped[int | None] = (
+        mapped_column(
+            Integer,
+            nullable=True,
+        )
     )
 
-    mobility_score: Mapped[int] = mapped_column(
-        Integer,
-        nullable=False,
+    mobility_score: Mapped[int | None] = (
+        mapped_column(
+            Integer,
+            nullable=True,
+        )
     )
 
-    assistance_score: Mapped[int] = mapped_column(
-        Integer,
-        nullable=False,
+    assistance_score: Mapped[int | None] = (
+        mapped_column(
+            Integer,
+            nullable=True,
+        )
     )
 
-    evaluation_adjustment_score: Mapped[int] = mapped_column(
+    evaluation_adjustment_score: Mapped[
+        int | None
+    ] = mapped_column(
         Integer,
-        nullable=False,
+        nullable=True,
     )
 
-    material_preferences: Mapped[list[str]] = mapped_column(
+    material_preferences: Mapped[
+        list[str]
+    ] = mapped_column(
         MutableList.as_mutable(JSONB),
         default=list,
         nullable=False,
     )
 
-    assistive_tools: Mapped[list[str]] = mapped_column(
+    assistive_tools: Mapped[
+        list[str]
+    ] = mapped_column(
         MutableList.as_mutable(JSONB),
         default=list,
         nullable=False,
     )
 
-    assessment: Mapped["Assessment"] = relationship(
+    assessment: Mapped[
+        "Assessment"
+    ] = relationship(
         back_populates="score",
     )

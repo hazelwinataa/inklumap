@@ -10,6 +10,9 @@ from app.database import (
 from app.routers.analytics import (
     router as analytics_router,
 )
+from app.routers.assessments import (
+    router as assessments_router,
+)
 from app.routers.students import (
     router as students_router,
 )
@@ -33,6 +36,10 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
+)
+
+app.include_router(
+    assessments_router
 )
 
 app.include_router(
