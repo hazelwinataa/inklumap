@@ -1,8 +1,10 @@
 import type {
+  AnalyticsStudentDetail,
   AnalyticsSummary,
 } from "@/types/analytics";
 import type {
   GetStudentsParams,
+  StudentDetail,
   StudentListResponse,
   StudentSummary,
 } from "@/types/students";
@@ -93,6 +95,50 @@ export async function getStudents({
 
     const response = await fetch(
       url.toString(),
+      {
+        cache: "no-store",
+      },
+    );
+
+    if (!response.ok) {
+      return null;
+    }
+
+    return await response.json();
+  } catch {
+    return null;
+  }
+}
+
+
+export async function getStudentDetail(
+  studentId: number,
+): Promise<StudentDetail | null> {
+  try {
+    const response = await fetch(
+      `${API_URL}/api/students/${studentId}`,
+      {
+        cache: "no-store",
+      },
+    );
+
+    if (!response.ok) {
+      return null;
+    }
+
+    return await response.json();
+  } catch {
+    return null;
+  }
+}
+
+
+export async function getAnalyticsStudentDetail(
+  studentId: number,
+): Promise<AnalyticsStudentDetail | null> {
+  try {
+    const response = await fetch(
+      `${API_URL}/api/analytics/students/${studentId}`,
       {
         cache: "no-store",
       },

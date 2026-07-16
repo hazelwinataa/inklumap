@@ -42,3 +42,44 @@ export interface GetStudentsParams {
   search?: string;
   assessmentStatus?: AssessmentStatus;
 }
+
+
+export interface AssessmentScore {
+  id: number;
+  assessment_id: number;
+
+  visual_score: number;
+  hearing_score: number;
+  communication_score: number;
+  instruction_score: number;
+  attention_score: number;
+  mobility_score: number;
+  assistance_score: number;
+  evaluation_adjustment_score: number;
+
+  material_preferences: string[];
+  assistive_tools: string[];
+}
+
+
+export interface StudentAssessment {
+  id: number;
+  student_id: number;
+  assessor_id: number | null;
+
+  assessment_date: string;
+  source_information: string | null;
+  notes: string | null;
+  status: string;
+
+  created_at: string;
+  updated_at: string;
+
+  score: AssessmentScore | null;
+}
+
+
+export interface StudentDetail
+  extends StudentListItem {
+  assessments: StudentAssessment[];
+}

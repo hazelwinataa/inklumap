@@ -3,9 +3,11 @@
 import {
   ChevronLeft,
   ChevronRight,
+  Eye,
   RotateCcw,
   Search,
 } from "lucide-react";
+import Link from "next/link";
 import {
   useState,
   type FormEvent,
@@ -313,6 +315,10 @@ export default function StudentsTable({
               <TableHeader>
                 Status asesmen
               </TableHeader>
+
+              <TableHeader>
+                Aksi
+              </TableHeader>
             </tr>
           </thead>
 
@@ -354,6 +360,20 @@ export default function StudentsTable({
                       student.assessment_status
                     }
                   />
+                </TableCell>
+
+                <TableCell>
+                  <Link
+                    href={`/students/${student.id}`}
+                    aria-label={
+                      `Lihat detail ${student.student_code}`
+                    }
+                    className="inline-flex items-center gap-2 rounded-lg border border-blue-200 bg-blue-50 px-3 py-2 text-xs font-semibold text-blue-700 transition hover:bg-blue-100 focus:outline-none focus:ring-4 focus:ring-blue-100"
+                  >
+                    <Eye size={16} />
+
+                    Detail
+                  </Link>
                 </TableCell>
               </tr>
             ))}
